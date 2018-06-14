@@ -11,52 +11,65 @@ from PyQt5.QtGui import QColor, QIcon
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.fileNameLabel = QLabel(self)
+        self.fileNameLabel.setText('File:')
+        self.fileNameLabel.move(20, 20)
 
-        newFont = QtGui.QFont("Times", 12)
-        self.fileLabel = QLabel(self)
-        self.fileLabel.setGeometry(10, 20, 200, 20)
-        self.fileLabel.setText("da fuck")
-        self.fileLabel.setFont(newFont)
+        self.filePathLine = QLineEdit(self)
+        self.filePathLine.move(80, 20)
+        self.filePathLine.resize(450, 32)
+        self.filePathLine.setEnabled(False)
+        self.filePathLine.setText("/")
 
-        openFile = QAction(QIcon('open.png'), 'Open', self)
-        openFile.setShortcut('Ctrl+O')
-        openFile.setStatusTip('Open File')
-        openFile.triggered.connect(self.showDialog)
+        self.chooseFileBtn = QPushButton('Open', self)
+        self.chooseFileBtn.move(460, 20)
+        self.chooseFileBtn.resize(70, 31)
+        # self.chooseFileBtn.setShortcut('Ctrl+O')
+        self.chooseFileBtn.clicked[bool].connect(self.chooseFileDialog)
 
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(openFile)
+        # --------------------------
+        self.outputDirLabel = QLabel(self)
+        self.outputDirLabel.setText('Output:')
+        self.outputDirLabel.move(20, 60)
 
-        self.setGeometry(300, 300, 500, 300)
+        self.outputDirLine = QLineEdit(self)
+        self.outputDirLine.move(80, 60)
+        self.outputDirLine.resize(450, 32)
+        self.outputDirLine.setEnabled(False)
+        self.outputDirLine.setText("/")
+
+        self.chooseOutputDirBtn = QPushButton('Choose', self)
+        self.chooseOutputDirBtn.move(460, 60)
+        self.chooseOutputDirBtn.resize(70, 31)
+        # self.chooseOutputDirBtn.setShortcut('Ctrl+O')
+        self.chooseOutputDirBtn.clicked[bool].connect(self.chooseOutputDirBtnDialog)
+
+        self.setGeometry(300, 300, 600, 300)
         self.setWindowTitle('Toggle button')
         self.show()
-
-        # self.col = QColor(0, 0, 0)
-        #
-        # splitBtn = QPushButton('Split', self)
-        # splitBtn.setCheckable(True)
-        # splitBtn.move(250, 250)
-        #
-        # splitBtn.clicked[bool].connect(self.splitMp3)
-
-
-
-
-
 
 
     def splitMp3(self):
         print("hello")
 
-    def showDialog(self):
+    def chooseFileDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()",
+                                                  "/home/user", "Music (*.mp3)", options=options)
+        if fileName:
+            self.filePathLine.setText(fileName)
+            print(fileName)
 
-        fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
-
-        f = open(fname, 'r')
-
-        with f:
-            data = f.read()
-            # self.textEdit.setText(data)
+    def chooseOutputDirBtnDialog(self):
+        print('hello')
+        # options = QFileDialog.Options()
+        # options |= QFileDialog.DontUseNativeDialog
+        # fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()",
+        #                                           "/home/user", "Music (*.mp3)", options=options)
+        # if fileName:
+        #     self.filePathLine.setText(fileName)
+        #     print(fileName)
 
 
 if __name__ == '__main__':
