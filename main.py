@@ -9,6 +9,9 @@ from PyQt5.QtGui import QColor, QIcon
 
 
 class MainWindow(QMainWindow):
+    isFileChoosen = False
+    isOutputDirChoosen = False
+
     def __init__(self):
         super().__init__()
         self.fileNameLabel = QLabel(self)
@@ -44,32 +47,37 @@ class MainWindow(QMainWindow):
         # self.chooseOutputDirBtn.setShortcut('Ctrl+O')
         self.chooseOutputDirBtn.clicked[bool].connect(self.chooseOutputDirBtnDialog)
 
+        self.SplitMp3Btn = QPushButton('Split', self)
+        self.SplitMp3Btn.move(240, 240)
+        self.SplitMp3Btn.resize(120, 40)
+        # self.chooseOutputDirBtn.setShortcut('Ctrl+O')
+        self.SplitMp3Btn.clicked[bool].connect(self.splitMp3)
+
         self.setGeometry(300, 300, 600, 300)
         self.setWindowTitle('Toggle button')
         self.show()
 
 
     def splitMp3(self):
-        print("hello")
+        if (self.isOutputDirChoosen and self.isFileChoosen):
+            fileName = self.filePathLine.text()
+            outputDir = self.outputDirLine.text()
+            print(fileName)
 
     def chooseFileDialog(self):
         options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()",
                                                   "/home/user", "Music (*.mp3)", options=options)
         if fileName:
             self.filePathLine.setText(fileName)
-            print(fileName)
+            self.isFileChoosen = True
 
     def chooseOutputDirBtnDialog(self):
-        print('hello')
-        # options = QFileDialog.Options()
-        # options |= QFileDialog.DontUseNativeDialog
-        # fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()",
-        #                                           "/home/user", "Music (*.mp3)", options=options)
-        # if fileName:
-        #     self.filePathLine.setText(fileName)
-        #     print(fileName)
+        options = QFileDialog.Options()
+        dirName = str(QFileDialog.getExistingDirectory(self, "Select Directory", '/home/user/'))
+        if dirName:
+            self.outputDirLine.setText(dirName)
+            self.isOutputDirChoosen = True
 
 
 if __name__ == '__main__':
