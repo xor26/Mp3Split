@@ -1,11 +1,10 @@
-import random
 import sys
-from PyQt5 import QtGui
 
-from PyQt5.QtWidgets import (QWidget, QPushButton,
-                             QFrame, QApplication, QLabel, QLineEdit, QInputDialog, QTextEdit, QAction, QFileDialog,
+from PyQt5.QtWidgets import (QPushButton,
+                             QApplication, QLabel, QLineEdit, QFileDialog,
                              QMainWindow)
-from PyQt5.QtGui import QColor, QIcon
+
+from spliter import Spliter
 
 
 class MainWindow(QMainWindow):
@@ -57,12 +56,13 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Toggle button')
         self.show()
 
-
     def splitMp3(self):
+
         if (self.isOutputDirChoosen and self.isFileChoosen):
             fileName = self.filePathLine.text()
             outputDir = self.outputDirLine.text()
-            print(fileName)
+            chunkCount = 10
+            Spliter.splitFile(fileName, outputDir, chunkCount)
 
     def chooseFileDialog(self):
         options = QFileDialog.Options()
