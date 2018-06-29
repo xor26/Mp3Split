@@ -1,8 +1,4 @@
-import sys
-
-from PyQt5.QtWidgets import (QPushButton,
-                             QApplication, QLabel, QLineEdit, QFileDialog,
-                             QMainWindow)
+from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, QFileDialog, QMainWindow)
 
 from spliter import Spliter
 
@@ -13,6 +9,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
         self.fileNameLabel = QLabel(self)
         self.fileNameLabel.setText('File:')
         self.fileNameLabel.move(20, 20)
@@ -26,10 +23,8 @@ class MainWindow(QMainWindow):
         self.chooseFileBtn = QPushButton('Open', self)
         self.chooseFileBtn.move(460, 20)
         self.chooseFileBtn.resize(70, 31)
-        # self.chooseFileBtn.setShortcut('Ctrl+O')
         self.chooseFileBtn.clicked[bool].connect(self.chooseFileDialog)
 
-        # --------------------------
         self.outputDirLabel = QLabel(self)
         self.outputDirLabel.setText('Output:')
         self.outputDirLabel.move(20, 60)
@@ -43,22 +38,19 @@ class MainWindow(QMainWindow):
         self.chooseOutputDirBtn = QPushButton('Choose', self)
         self.chooseOutputDirBtn.move(460, 60)
         self.chooseOutputDirBtn.resize(70, 31)
-        # self.chooseOutputDirBtn.setShortcut('Ctrl+O')
         self.chooseOutputDirBtn.clicked[bool].connect(self.chooseOutputDirBtnDialog)
 
         self.SplitMp3Btn = QPushButton('Split', self)
-        self.SplitMp3Btn.move(240, 240)
-        self.SplitMp3Btn.resize(120, 40)
-        # self.chooseOutputDirBtn.setShortcut('Ctrl+O')
+        self.SplitMp3Btn.move(460, 140)
+        self.SplitMp3Btn.resize(80, 30)
         self.SplitMp3Btn.clicked[bool].connect(self.splitMp3)
 
-        self.setGeometry(300, 300, 600, 300)
+        self.setGeometry(300, 300, 550, 180)
         self.setWindowTitle('Toggle button')
         self.show()
 
     def splitMp3(self):
-
-        if (self.isOutputDirChoosen and self.isFileChoosen):
+        if self.isOutputDirChoosen and self.isFileChoosen:
             fileName = self.filePathLine.text()
             outputDir = self.outputDirLine.text()
             chunkCount = 10
@@ -73,14 +65,7 @@ class MainWindow(QMainWindow):
             self.isFileChoosen = True
 
     def chooseOutputDirBtnDialog(self):
-        options = QFileDialog.Options()
         dirName = str(QFileDialog.getExistingDirectory(self, "Select Directory", '/home/user/'))
         if dirName:
             self.outputDirLine.setText(dirName)
             self.isOutputDirChoosen = True
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = MainWindow()
-    sys.exit(app.exec_())
