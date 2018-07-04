@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, QFileDialog, QMainWindow)
+from PyQt5.QtWidgets import (QPushButton, QLabel, QLineEdit, QFileDialog, QMainWindow, QMessageBox)
 
 from spliter import Spliter
 
@@ -55,6 +55,10 @@ class MainWindow(QMainWindow):
             outputDir = self.outputDirLine.text()
             chunkCount = 10
             Spliter.splitFile(fileName, outputDir, chunkCount)
+            QMessageBox.about(self, "Success", "File has been splitted successfully!")
+        else:
+            QMessageBox.about(self, "Error", "You must choose output dir and input file")
+
 
     def chooseFileDialog(self):
         options = QFileDialog.Options()
