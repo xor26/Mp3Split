@@ -9,6 +9,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        print("test")
 
         self.fileNameLabel = QLabel(self)
         self.fileNameLabel.setText('File:')
