@@ -1,20 +1,23 @@
 import os
 import math
+
+
 class Spliter():
 
     @staticmethod
-    def splitFile(filePath,  outputDir, chunkCount):
-        fileName = filePath.rsplit('.', 1)[0]
-        fileName = fileName.rsplit('/', 1)[1]
-        fileExtension = filePath.rsplit('.', 1)[1]
+    def split_file(file_path, output_dir, chunk_count):
+        file_name = file_path.rsplit('.', 1)[0]
+        file_name = file_name.rsplit('/', 1)[1]
+        file_extension = file_path.rsplit('.', 1)[1]
 
-        fileSize = os.stat(filePath).st_size  # in bytes
-        chunkSize = math.ceil(fileSize / chunkCount)
-        chunkNum = 0
-        with open(filePath, "rb") as file:
-            chunk = file.read(chunkSize)
+        file_size = os.stat(file_path).st_size  # in bytes
+        chunk_size = math.ceil(file_size / chunk_count)
+        chunk_num = 0
+        with open(file_path, "rb") as file:
+            chunk = file.read(chunk_size)
             while chunk != b'':
-                chunkNum += 1
-                with open(outputDir+"/"+fileName+"_"+str(chunkNum)+"."+fileExtension, "wb") as outputChunk:
+                chunk_num += 1
+                with open(output_dir + "/" + file_name + "_" + str(chunk_num) + "." + file_extension,
+                          "wb") as outputChunk:
                     outputChunk.write(chunk)
-                chunk = file.read(chunkSize)
+                chunk = file.read(chunk_size)

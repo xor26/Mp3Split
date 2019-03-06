@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.chooseFileBtn = QPushButton('Open', self)
         self.chooseFileBtn.move(460, 20)
         self.chooseFileBtn.resize(70, 31)
-        self.chooseFileBtn.clicked[bool].connect(self.chooseFileDialog)
+        self.chooseFileBtn.clicked[bool].connect(self.choose_file_dialog)
 
         self.outputDirLabel = QLabel(self)
         self.outputDirLabel.setText('Output:')
@@ -39,38 +39,37 @@ class MainWindow(QMainWindow):
         self.chooseOutputDirBtn = QPushButton('Choose', self)
         self.chooseOutputDirBtn.move(460, 60)
         self.chooseOutputDirBtn.resize(70, 31)
-        self.chooseOutputDirBtn.clicked[bool].connect(self.chooseOutputDirBtnDialog)
+        self.chooseOutputDirBtn.clicked[bool].connect(self.choose_output_dir_btn_dialog)
 
         self.SplitMp3Btn = QPushButton('Split', self)
         self.SplitMp3Btn.move(460, 140)
         self.SplitMp3Btn.resize(80, 30)
-        self.SplitMp3Btn.clicked[bool].connect(self.splitMp3)
+        self.SplitMp3Btn.clicked[bool].connect(self.split_file)
 
         self.setGeometry(300, 300, 550, 180)
-        self.setWindowTitle('Toggle button')
+        self.setWindowTitle('mp3Split')
         self.show()
 
-    def splitMp3(self):
+    def split_file(self):
         if self.isOutputDirChoosen and self.isFileChoosen:
-            fileName = self.filePathLine.text()
-            outputDir = self.outputDirLine.text()
-            chunkCount = 10
-            Spliter.splitFile(fileName, outputDir, chunkCount)
+            file = self.filePathLine.text()
+            output_dir = self.outputDirLine.text()
+            chunk_count = 10
+            Spliter.split_file(file, output_dir, chunk_count)
             QMessageBox.about(self, "Success", "File has been splitted successfully!")
         else:
             QMessageBox.about(self, "Error", "You must choose output dir and input file")
 
-
-    def chooseFileDialog(self):
+    def choose_file_dialog(self):
         options = QFileDialog.Options()
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()",
+        file_name, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()",
                                                   "/home/user", "Music (*.mp3)", options=options)
-        if fileName:
-            self.filePathLine.setText(fileName)
+        if file_name:
+            self.filePathLine.setText(file_name)
             self.isFileChoosen = True
 
-    def chooseOutputDirBtnDialog(self):
-        dirName = str(QFileDialog.getExistingDirectory(self, "Select Directory", '/home/user/'))
-        if dirName:
-            self.outputDirLine.setText(dirName)
+    def choose_output_dir_btn_dialog(self):
+        dir_name = str(QFileDialog.getExistingDirectory(self, "Select Directory", '/home/user/'))
+        if dir_name:
+            self.outputDirLine.setText(dir_name)
             self.isOutputDirChoosen = True
